@@ -1,0 +1,186 @@
+Sorteador de Números :
+
+Saber qual elemento buscar no HTML para começar e criar uma função, Melhor jeito de recuperar um elemento seria de id dele.
+
+Lembrar sempre de usar o .value para que ele armazene o valor, podemos usar o alert ou console.log para ver se esta tudo ok
+
+function sortear() {
+    let quantidade = document.getElementById('quantidade').value;
+    let de = document.getElementById('de').value;
+    let ate = document.getElementById('ate').value;
+
+    alert (`quantidade: ${quantidade}`);
+    alert (`Do Número: ${de}`);
+    alert (`Até o Número: ${ate}`);
+}
+
+
+Utilizando o parseInt() para ter como parametro o recebimento de um numero inteiro, Literalmente ela serve pra especificar que ali no codigo vira um numero e n um texto
+
+
+
+Usando uma função para gerar um numero aleatorio deve ter paramentros de min e max, minimo e maximo
+
+function obterNumeroAleatorio(min, max) {
+    return Math.floor(Math.random() * (max-min + 1)) + min;
+}
+
+
+Usando uma Array para armazenar um valor.
+
+
+Urilizando o loop for para repetir um bloco de código enquanto uma condição é verdadeira porém ele e mais utilizado para percorrer elementos de uma array
+
+
+for (let i = 0; i< quantidade; i++) {
+       numero = obterNumeroAleatorio(de, ate);
+       sorteados.push(valor);
+    }
+
+
+push para puxar o valor aleatorio para a array usando o i como base para esse loop e o i++ para limitar ele.
+
+
+Utilizamos o .value quando queremos recuperar o valor que recebemos em um campo de texto
+
+
+e lembrar de usar o .innerHTML para inserir um texto na tela.
+
+
+
+
+Tambem temos o .textContent quando queremos inserir ou modificar um texto simples dentro de um elemento HTML porem esse e pra simples frases.
+
+
+while para repetir um bloco de codigos enquanto uma certa condição form verdadeira exemplo
+
+
+while(sorteados.includes(numero)) : enquanto a variavel sorteados tiver incluido esse numero vamos pedir pra ele fazer um novo
+
+includes para incluir coisas na array, incluir uma condição
+
+o push nas arrays servem para puxar coisas nela 
+
+
+Abilitando o botão de reiniciar
+
+
+elemento visual vamos tirar a classe do elemento css vamos manibular as classes trocar
+
+
+Vamos criar no appjs uma função para alterar o status do botão e pegar seu id
+
+
+function alterarStatusDoBotao() {
+    let botao = document.getElementById('btn-reiniciar')
+}
+
+lembrar de dar valor a função escrevendo alterarStatusDoBotao();
+
+
+E agora vamos dar uma condição a funçao usando o if se algo acontecer usar isso ou else se não acontcer.
+
+
+um elemento html diferente do id pode ter multiplas classes, e ussando o classList podemos acesssar a lista de classes de um elemento um exemplo de desse codigo seria o if (botao.classList.contains('cobiar a class que tiver no html'))
+
+if (botao.classList.contains('container__botao-desabilitado')){
+        botao.classList.remove('container__botao-desabilitado');
+        botao.classList.add('container__botao');
+    } else {
+        botao.classList.remove('container__botao');
+        botao.classList.add('container__botao-desabilitado');
+    }
+
+desse jeito fazendo o normal e depois o inverso
+
+
+Agora vamos atribuir uma funçao ao botao para limpar o valor qur foi digitado em uma imput e so atribuir um value'';
+vazio
+
+
+Para que o code fique organizado vamos reiniciar tambem o texto inicial que aparecia de nenhum numero sorteado ussando o .innerHTML
+
+document.getElementById('quantidade').value ='';
+    document.getElementById('de').value = '';
+    document.getElementById('ate').value = '';
+    document.getElementById('resultado').innerHTML = '<label class="texto__paragrafo">Números sorteados:  nenhum até agora</label>'
+    alterarStatusDoBotao();
+
+Assim tambem chamamos a função de alterar status do botao para que ele n seja acessado ate terminar o sorteio
+
+
+CODIGO FINAL:
+
+function sortear(){
+    let quantidade = parseInt(document.getElementById('quantidade').value);
+    let de = parseInt(document.getElementById('de').value);
+    let ate = parseInt(document.getElementById('ate').value);
+    
+    let sorteados = [];
+    let numero;
+
+    if (de >= ate) {
+        alert('Campo "Do número" deve ser inferior ao campo "Até o número". Verifique!');
+        return;
+      }
+
+      if (quantidade > (ate - de + 1)) {
+        alert('Campo "Quantidade" deve ser menor ou igual ao intervalo informado no campo "Do número" até o campo "Até o número". Verifique!');
+        return;
+      }
+    
+//Aqui, em nosso exemplo, para escolhermos 5 números exclusivos,
+//precisaríamos escolher o intervalo de 10 a 14, pois as possibilidades de
+//sorteio seriam 10, 11, 12, 13 e 14. É por esse motivo que fazemos a
+//verificação se a quantidade é maior que o cálculo (até - de + 1), pois se
+//fosse igual ou inferior não apresentaria o erro de loop infinito.
+
+// lembrar do return para que ele não sorteie o valor e retorne o alert
+
+    for (let i = 0; i< quantidade; i++) {
+       numero = obterNumeroAleatorio(de, ate);
+       //while para repetir um bloco de codigos enquanto uma certa condição form verdadeira
+       while (sorteados.includes(numero)){
+        numero = obterNumeroAleatorio(de, ate);
+       }
+       
+       sorteados.push(numero);
+
+       
+    }
+    let resultado = document.getElementById('resultado');
+       resultado.innerHTML = `<label class="texto__paragrafo">Números sorteados: ${sorteados}</label>`
+
+       alterarStatusDoBotao();
+}
+
+// Lembrar sempre das variaveis são a base pra tudo 
+// criando Arrays para armazenar valores 
+// return para voltar o valor de alguma forma
+function obterNumeroAleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}   
+
+function alterarStatusDoBotao() {
+    let botao = document.getElementById('btn-reiniciar')
+    if (botao.classList.contains('container__botao-desabilitado')){
+        botao.classList.remove('container__botao-desabilitado');
+        botao.classList.add('container__botao');
+    } else {
+        botao.classList.remove('container__botao');
+        botao.classList.add('container__botao-desabilitado');
+    }
+
+}
+
+function reiniciar() { 
+    document.getElementById('quantidade').value ='';
+    document.getElementById('de').value = '';
+    document.getElementById('ate').value = '';
+    document.getElementById('resultado').innerHTML = '<label class="texto__paragrafo">Números sorteados:  nenhum até agora</label>'
+    alterarStatusDoBotao();
+
+}
+
+
+
